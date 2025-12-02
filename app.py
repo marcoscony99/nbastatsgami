@@ -3,9 +3,32 @@ import pandas as pd
 
 st.title("NBA Boxscore Scorigami")
 
-# 1) Carrega o parquet com tratamento de erro
-try:
+@st.cache_data
+def load_data():
+    """Carrega o parquet e mantém só as colunas necessárias."""
     df = pd.read_parquet("nbastatsgami.parquet")
+
+    cols = [
+        "points",
+        "reboundsTotal",
+        "assists",
+        "blocks",
+        "steals",
+        "firstName",
+        "lastName",
+        "gameDateTimeEst",
+        "playerteamName",
+        "opponentteamName",
+    ]
+    cols = [c for c in cols if c in df.columns]
+    df = df[cols].copy()
+
+    return df
+
+
+# 1) Carrega dataset com tratamento de erro em volta do cache
+try:
+    df = load_data()
 except Exception as e:
     st.error("❌ Erro ao carregar o arquivo 'nbastatsgami.parquet'.")
     st.write("### Tipo do erro:", type(e).__name__)
@@ -13,8 +36,6 @@ except Exception as e:
     st.stop()
 
 st.write("✅ Dataset carregado com sucesso!")
-
-# Mostra colunas para conferência
 st.write("Colunas disponíveis:", list(df.columns))
 
 # 2) Verifica se as colunas necessárias existem
@@ -39,7 +60,6 @@ if missing:
     st.stop()
 
 st.write("✅ Todas as colunas necessárias foram encontradas.")
-
 st.write("Digite os stats para ver se esse combo já aconteceu na história do dataset.")
 
 # 3) Inputs
@@ -63,7 +83,8 @@ if st.button("Checar Scorigami"):
         matches = df[mask]
 
         st.write(
-            f"Checando stats: {points} PTS, {rebounds} REB, {assists} AST, {blocks} BLK, {steals} STL"
+            f"Checando stats: {points} PTS, {rebounds} REB, {assists} AST, "
+            f"{blocks} BLK, {steals} STL"
         )
 
         if matches.empty:
@@ -84,7 +105,6 @@ if st.button("Checar Scorigami"):
                 "blocks",
                 "steals",
             ]
-
             cols_to_show = [c for c in cols_to_show if c in matches.columns]
 
             st.dataframe(
