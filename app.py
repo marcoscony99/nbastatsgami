@@ -1,38 +1,12 @@
 import streamlit as st
 import pandas as pd
-import requests
-from io import StringIO
-
 
 @st.cache_data
 def load_data():
     url = "https://drive.google.com/uc?export=download&id=1bSWKcYcyDBFXiF3qdzBi6CaZjBTBJGNG"
+    df = pd.read_csv(url)
+    return df
 
-    # Baixa o conteúdo bruto
-    resp = requests.get(url)
-    resp.raise_for_status()
-
-    content = resp.text
-
-    # Tentativa 1: CSV padrão com vírgula
-    try:
-        df = pd.read_csv(StringIO(content))
-        return df
-    except pd.errors.ParserError:
-        pass
-
-    # Tentativa 2: CSV com ponto e vírgula (bem comum em pt-BR)
-    try:
-        df = pd.read_csv(StringIO(content), sep=";")
-        return df
-    except pd.errors.ParserError:
-        pass
-
-    # Se nada funcionar, mostramos um pedaço do conteúdo pra debug
-    first_500 = content[:500]
-    st.error("Não consegui ler o arquivo como CSV. Veja abaixo os primeiros caracteres do arquivo para debug:")
-    st.code(first_500)
-    raise RuntimeError("Falha ao fazer o parse do CSV.")
 
 df = load_data()
 
