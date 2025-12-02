@@ -10,6 +10,8 @@ def load_data():
 
 df = load_data()
 
+st.write("Colunas do dataset:", list(df.columns))
+
 st.title("NBA Boxscore Scorigami")
 
 st.write("Digite os stats para ver se esse combo já aconteceu na história do dataset.")
