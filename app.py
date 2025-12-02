@@ -1,26 +1,10 @@
 import streamlit as st
 import pandas as pd
-import kagglehub
-import os
 
 @st.cache_data
 def load_data():
-    # Baixa a versão mais recente do dataset no cache do kagglehub
-    path = kagglehub.dataset_download(
-        "eoinamoore/historical-nba-data-and-player-box-scores"
-    )
-
-    # Lista os arquivos pra você debugar se precisar
-    files = os.listdir(path)
-    # st.write("Arquivos encontrados na pasta do dataset:", files)
-
-    # 🔴 IMPORTANTE: ajuste o nome do arquivo CSV aqui
-    # Use o mesmo nome que você usou no Colab (por ex: "player_box_scores.csv")
-    csv_name = "PlayerStatistics.csv"  # <-- troque se o nome for outro
-
-    full_path = os.path.join(path, csv_name)
-    df = pd.read_csv(full_path)
-
+    url = "https://drive.google.com/uc?export=download&id=1bSWKcYcyDBFXiF3qdzBi6CaZjBTBJGNG"
+    df = pd.read_csv(url)
     return df
 
 df = load_data()
