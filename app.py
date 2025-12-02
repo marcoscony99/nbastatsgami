@@ -3,14 +3,7 @@ import pandas as pd
 
 @st.cache_data
 def load_data():
-    url = (
-        "https://drive.usercontent.google.com/download"
-        "?id=1bSWKcYcyDBFXiF3qdzBi6CaZjBTBJGNG"
-        "&export=download"
-        "&confirm=t"
-        "&uuid=329d7d4a-ebdf-4b3c-9162-6fad62e0c592"
-    )
-    df = pd.read_csv(url)
+    df = pd.read_parquet("nbastatsgami.parquet")
     return df
 
 df = load_data()
