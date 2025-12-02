@@ -3,14 +3,17 @@ import pandas as pd
 
 @st.cache_data
 def load_data():
-    url = "https://drive.google.com/uc?export=download&id=1bSWKcYcyDBFXiF3qdzBi6CaZjBTBJGNG"
+    url = (
+        "https://drive.usercontent.google.com/download"
+        "?id=1bSWKcYcyDBFXiF3qdzBi6CaZjBTBJGNG"
+        "&export=download"
+        "&confirm=t"
+        "&uuid=329d7d4a-ebdf-4b3c-9162-6fad62e0c592"
+    )
     df = pd.read_csv(url)
     return df
 
-
 df = load_data()
-
-st.write("Colunas do dataset:", list(df.columns))
 
 st.title("NBA Boxscore Scorigami")
 
