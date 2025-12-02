@@ -12,6 +12,9 @@ def load_data():
         st.write("### Mensagem do erro:", str(e))
         st.stop()
 
+# 🔹 ESSA LINHA É O QUE FALTAVA
+df = load_data()
+
 st.title("NBA Boxscore Scorigami")
 
 st.write("Digite os stats para ver se esse combo já aconteceu na história do dataset.")
