@@ -3,10 +3,14 @@ import pandas as pd
 
 @st.cache_data
 def load_data():
-    df = pd.read_parquet("nbastatsgami.parquet")
-    return df
-
-df = load_data()
+    try:
+        df = pd.read_parquet("nbastatsgami.parquet")
+        return df
+    except Exception as e:
+        st.error("❌ Erro ao carregar o arquivo 'nbastatsgami.parquet'")
+        st.write("### Tipo do erro:", type(e).__name__)
+        st.write("### Mensagem do erro:", str(e))
+        st.stop()
 
 st.title("NBA Boxscore Scorigami")
 
